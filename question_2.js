@@ -18,6 +18,7 @@ function bfs(nodes, m, edges, s) {
     }
     level[s-1] = 0;
     while (queue.length) {
+        // remove s, ...
         let devertex = queue.shift();
         for (let i = 0; i < graph[devertex].length; i++) {
             let neighbours = graph[devertex][i];
