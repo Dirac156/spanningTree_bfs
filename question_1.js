@@ -1,18 +1,39 @@
 function Graph(nbrVertices) {
+    // create a new graph object
     return {
         nbrVertices,
         graph: [],
+        /**
+         * Add a new edge into the graph
+         * @param {int} source 
+         * @param {int} destination 
+         * @param {int} weight 
+         */
         addEdge: function(source, destination, weight) {
             this.graph.push([source, destination, weight]);
         },
-    
+        
+        /**
+         * Readjuste the parent list: macth element i to a set of other element to form edges.
+         * To prevent spanning tree to become a circle.
+         * @param {int[]} parent 
+         * @param {int} idx 
+         * @returns 
+         */
         find: function(parent, idx) {
             if (parent[idx] != idx) {
                 parent[idx] = this.find(parent, parent[idx]);
             }
             return parent[idx];
         },
-    
+        
+        /**
+         * 
+         * @param {*} parent 
+         * @param {*} rank 
+         * @param {*} x 
+         * @param {*} y 
+         */
         union: function(parent, rank, x, y) {
             if (rank[x] < rank[y]) {
                 parent[x] = y;
@@ -36,10 +57,12 @@ function KruskalMST (graph) {
 
     let parent = [],
         rank = [];
+    // initialize the list of vertices
     for (let node = 0; node < graph.nbrVertices; node++) {
         parent.push(node);
         rank.push(0);
     }
+    // travers all verteces
     while (e < graph.nbrVertices - 1) {
         const source = graph.graph[i][0],
             destination = graph.graph[i][1],
@@ -47,14 +70,16 @@ function KruskalMST (graph) {
         i = i + 1;
         let x = graph.find(parent, source);
         let y = graph.find(parent, destination);
+        // x === y: cause the tree to become a circle, 
         if (x !== y) {
             e = e + 1;
+            // add the edge to our result list (spanning Tree)
             result.push([source, destination, weight]);
             graph.union(parent, rank, x, y);
         }
     }
-
-    console.log("K algorithm")
+    // print the result
+    console.log("Kruskal's algorithm")
     console.log("Minimum Spanning Tree");
 
     let minimumCost = result.reduce((previousValue, currentValue) => {
@@ -75,17 +100,17 @@ function PrismMST (graph) {
         visited = [],
         parent = [];
 
+    // create parent node
     for (let node = 0; node < graph.nbrVertices; node++) {
         parent.push(node);
     }
 
-    const random_idx = Math.floor(Math.random() * 12); // select a numnber between 0 - 11
-    let e = parent[4];
-
-    console.log(random_idx)
+    // randomly choose the first element
+    // initialize V: starting point
+    let e = parent[3];
 
     for (let i = 0; i < parent.length - 1; i++) {
-        // randomly choose the first element
+        // add e to the visited list
         visited.push(e);
         const proposedRoutes = []
         for (let j = 0; j < graph.graph.length; j++){
@@ -135,7 +160,7 @@ function PrismMST (graph) {
 }
 
 
-
+// create graph
 const graph = Graph(12);
 
 const  graphnodes = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l" ];
