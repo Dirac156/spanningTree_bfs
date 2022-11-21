@@ -1,3 +1,11 @@
+/**
+ * find depth of a node starting from a point V
+ * @param {*} nodes: number of nodes
+ * @param {*} m: number of edges
+ * @param {*} edges: edges
+ * @param {*} s: starting point
+ * @returns 
+ */
 function bfs(nodes, m, edges, s) {
     // initialize graph
     let graph = {};
